@@ -1,0 +1,14 @@
+# Include drop-in configurations
+Include /etc/ssh/sshd_config.d/*.conf
+
+Port 2222        # Cambiamos puerto 22 a 2222
+#PermitRootLogin prohibit-password
+PermitRootLogin yes        # Permitir Login root, lo normal prohibirlo
+MaxAuthTries 3         # Maximo tres intentos antes de desconectar
+LoginGraceTime 2m     # Tiempo para introducir la contraseña
+MaxSessions 3         # Maximo numero de sesiones, con 3 suele ser suficiente para nuestra depuración
+
+
+# Solo escucha por la red interna de lan
+ListenAddress 10.0.1.10
+

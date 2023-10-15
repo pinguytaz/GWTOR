@@ -1,0 +1,48 @@
+User tor
+Log notice syslog
+
+#Definimos una direccion virtual(no utilizada) para prestar Servico proxy TOR
+#VirtualAddrNetwork 10.192.0.0/10
+VirtualAddrNetworkIPv4 10.192.0.0/10
+# Se habilita que al recibir una peicion de resolucion en sufijos definido en AutoHostsSuffixes a continuacion den direccion virtual no utilizada
+AutomapHostOnResolve 1
+#AutoHostsSuffixes .onion,exit
+
+## Puerto para la conexión nyx
+ControlPort 9051
+CookieAuthentication 1
+
+###########################
+# Gateway Trans/Dns-Port #
+###########################
+#Abrimos puerto para escuchar un proxy transparente de conexiones, 0 si no se desea o auto para que lo decida TOR
+#TransPort 192.168.100.41:9040 IsolateClientAddr IsolateClientProtocol IsolateDestAddr IsolateDestPort
+TransPort 10.0.1.10:9040 IsolateClientAddr IsolateClientProtocol IsolateDestAddr IsolateDestPort
+TransPort 127.0.0.1:9040 IsolateClientAddr IsolateClientProtocol IsolateDestAddr IsolateDestPort
+#DNSPort 192.168.100.41:5353
+DNSPort 10.0.1.10:5353
+DNSPort 127.0.0.1:5353
+
+## Apertura proxy  SOCKS port 9050 by default
+## poner "SOCKSPort 0" tor puro sin proxy
+#SocksPort unix:/run/tor/socks WorldWritable
+#SocksPort 127.0.0.1:9050
+
+## Directorio donde se guara claves etc, servicios
+DataDirectory /var/lib/tor
+
+############### Creacion servicios ocultos ###
+## ".../hidden_service/
+##      hostname    Direccion de nuestro enlace .onion
+##      hs_ed25519_public_key   Clave publica
+##      hs_ed25519_secrect_key  Clave privada con la que poder cambiar nuestro servicio
+##
+## HiddenServicePort x y:z dice que redirija el purto x a la ip-y:puerto-z
+#HiddenServiceDir /var/lib/tor/hidden_service/
+#HiddenServicePort 80 127.0.0.1:80
+#HiddenServiceDir /var/lib/tor/other_hidden_service/
+#HiddenServicePort 80 127.0.0.1:80
+#HiddenServicePort 22 127.0.0.1:22
+
+
+
